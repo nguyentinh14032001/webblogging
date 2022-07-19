@@ -34,7 +34,7 @@ const HeaderStyles = styled.header`
     gap: 20px;
     margin-left: 40px;
     list-style: none;
-    font-weight: 500;
+      font-weight:600;
   }
 
   .search {

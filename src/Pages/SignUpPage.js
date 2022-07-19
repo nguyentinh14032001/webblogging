@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "../component/input";
 import { Label } from "../component/label";
 import { useForm } from "react-hook-form";
@@ -31,6 +31,7 @@ const SignUpPage = () => {
   document.title = "Register";
   const {
     control,
+    setFocus,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
   } = useForm({
@@ -65,7 +66,9 @@ const SignUpPage = () => {
   //     });
   //   }
   // }, [errors]);
-
+  useEffect(() => {
+    setFocus("fullName");
+  }, [setFocus]);
   return (
     <AuthenticationPage>
       <form

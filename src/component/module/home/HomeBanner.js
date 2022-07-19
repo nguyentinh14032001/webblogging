@@ -21,6 +21,7 @@ const HomeBannerStyles = styled.div`
       color: white;
     }
     &-heading {
+      font-weight: bold;
       font-size: 36px;
       margin-bottom: 20px;
     }

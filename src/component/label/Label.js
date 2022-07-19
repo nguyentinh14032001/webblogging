@@ -3,7 +3,6 @@ import React from "react";
 const LabelStyles = styled.label`
   color: ${(props) => props.theme.grayDark};
   font-weight: 600;
- 
   cursor: pointer;
 `;
 

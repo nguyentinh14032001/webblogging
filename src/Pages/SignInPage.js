@@ -42,7 +42,7 @@ const SignInPage = () => {
   useEffect(() => {
     document.title = "Login page";
     if (userInfo?.email) {
-
+      navigate("/");
       document.title = "Home page";
     }
   }, [navigate, userInfo?.email]);

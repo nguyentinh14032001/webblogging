@@ -40,7 +40,6 @@ const Input = ({  name = "", type = "text",focusinput, children, control, ...pro
     name,
     defaultValue: "",
   });
-  console.log(focusinput);
   return (
     <InputStyles focusinput={focusinput}  hasIcon={ children ? true : false }>
       <input id={name} type={type} {...field} {...props} />
