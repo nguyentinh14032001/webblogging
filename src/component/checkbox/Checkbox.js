@@ -1,9 +1,9 @@
 import React from "react";
 import { useController } from "react-hook-form";
 
-const Checkbox = ({ checked, children, control, name, ...props }) => {
+const Checkbox = ({ checked, children, name, ...props }) => {
   const { field } = useController({
-    control,
+   
     name,
     defaultValue: "",
   });
@@ -20,7 +20,7 @@ const Checkbox = ({ checked, children, control, name, ...props }) => {
       <div className="flex items-center gap-x-3 font-medium cursor-pointer">
         <div
           className={`w-7 h-7 rounded flex items-center justify-center ${
-            checked ? "bg-green-400 text-white" : "bg-gray-200 text-transparent"
+            checked ? " bg-purple-500 text-white" : "bg-gray-200 text-transparent"
           }`}
         >
           <svg
