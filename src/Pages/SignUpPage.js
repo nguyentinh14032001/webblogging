@@ -9,10 +9,11 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/firebase-config";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import AuthenticationPage from "./AuthenticationPage";
 import { NavLink } from "react-router-dom";
 import InputPasswordToggle from "../component/input/InputPasswordToggle";
+import slugify from "slugify";
 const schema = yup
   .object({
     fullName: yup.string().required("Please enter your fullname"),
@@ -45,13 +46,13 @@ const SignUpPage = () => {
       await updateProfile(auth.currentUser, {
         displayName: values.fullName,
       });
-      toast.success("Regiter successfully");
-      const colRef = collection(db, "users");
-      await addDoc(colRef, {
+      await setDoc(doc(db, "users", auth.currentUser.uid), {
         fullname: values.fullName,
         email: values.email,
         password: values.password,
+        user: slugify(values.fullName, { lower: true }),
       });
+      toast.success("Regiter successfully");
     } catch (err) {
       console.log(err);
     }
@@ -100,7 +101,7 @@ const SignUpPage = () => {
             name="email"
             focusinput={errors?.email && "#c1592e"}
             className="input"
-            placeholder="Enter your Lastname"
+            placeholder="Enter your email"
           ></Input>
           {errors?.email && (
             <div style={{ color: "#c1592e", fontWeight: "500" }}>
@@ -127,8 +128,8 @@ const SignUpPage = () => {
         <Button
           style={{ width: "100%", maxWidth: 300, margin: "0 auto" }}
           isLoading={isSubmitting}
-          type="submit"
           disabled={isSubmitting}
+          type="submit"
         >
           Sign up
         </Button>

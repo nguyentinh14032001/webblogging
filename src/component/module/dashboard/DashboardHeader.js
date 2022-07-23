@@ -27,7 +27,7 @@ const DashboardHeader = () => {
       </Button>
       <div className="header-avatar">
         <img
-          src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/272865576_1026501861233390_6672108800918033642_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=KzK10CiuO98AX9DMie-&tn=ZTHW_0A2NPQGiVlz&_nc_ht=scontent.fsgn2-6.fna&oh=00_AT8pFw4JNC0UQVtFKEXOTNVrYWfddOkOlyQPMdcWlzRMiw&oe=62D719DD"
+          src="https://images.unsplash.com/photo-1644982647844-5ee1bdc5b114?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80"
           alt=""
         />
       </div>

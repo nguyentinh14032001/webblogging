@@ -67,13 +67,12 @@ const HeaderStyles = styled.header`
 function getLastName(name) {
   if (!name) return 'user';
   const length = name.split(" ").length;
-  console.log(length);
   return name.split(" ")[length - 1];
 }
 
 const Header = () => {
   const { userInfo } = useAuth();
-  console.log(userInfo);
+  console.log(userInfo?.displayName);
   return (
     <HeaderStyles>
       <div className="container">

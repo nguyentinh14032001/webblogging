@@ -69,10 +69,16 @@ export default function useFireBaseImage(setValue, getValues) {
         console.log("can not delete image");
       });
   };
+  const handleResetUpload = ()=>{
+    setImage("");
+    setProgress(0);
+  }
   return {
     image,
     progress,
     handleSelecteImage,
     handleDeleteImage,
+    handleResetUpload,
+
   };
 }

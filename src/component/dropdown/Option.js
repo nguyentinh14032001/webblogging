@@ -1,15 +1,31 @@
 import React from "react";
+import styled from "styled-components";
 import { useDropdown } from "./Dropdown-context";
+const Option = ({ onClick, children }) => {
+  const {setShow} = useDropdown();
+  const handleClick = () => {
+    onClick && onClick();
+    setShow(false)
+  }
+  const OptionStyles =styled.div`
+    padding: 16px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.1s linear;
+    &:hover{
+      --tw-bg-opacity: 1;
+      background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+    }
 
-const Option = (props) => {
-  const { onClick } = useDropdown();
+  `
   return (
-    <div
-      className="px-5 py-4 cursor-pointer flex items-center justify-between hover:bg-gray-100"
-      onClick={onClick}
+    <OptionStyles
+      onClick={handleClick}
     >
-      {props.children}
-    </div>
+      {children}
+    </OptionStyles>
   );
 };
 
