@@ -12,6 +12,7 @@ import * as yup from "yup";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase-config";
 import InputPasswordToggle from "../component/input/InputPasswordToggle";
+import { toast } from "react-toastify";
 
 const schema = yup
   .object({
@@ -34,10 +35,15 @@ const SignInPage = () => {
     formState: { isSubmitting, isValid, errors },
   } = useForm({ resolver: yupResolver(schema), mode: "onChange" });
   const handleSignIn = async (values) => {
-
     if (!isValid) return;
-    await signInWithEmailAndPassword(auth, values.email, values.password);
-   
+    try {
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      navigate("/");
+    } catch (error) {
+      if (error.message.includes("wrong-password")) {
+        toast.error("It seems your password was wrong");
+      }
+    }
   };
   useEffect(() => {
     document.title = "Login page";
@@ -63,7 +69,7 @@ const SignInPage = () => {
             focusinput={errors?.email && "#c1592e"}
             placeholder="Enter your email"
           ></Input>
-           {errors?.email && (
+          {errors?.email && (
             <div style={{ color: "#c1592e", fontWeight: "500" }}>
               {errors.email.message}
             </div>
@@ -75,14 +81,15 @@ const SignInPage = () => {
             control={control}
             errors={errors}
           ></InputPasswordToggle>
-            {errors?.password && (
+          {errors?.password && (
             <div style={{ color: "#c1592e", fontWeight: "500" }}>
               {errors.password.message}
             </div>
           )}
         </Field>
         <div className="have-account">
-          You have not had an account? <NavLink to={"/sign-up"}>Register</NavLink>
+          You have not had an account?{" "}
+          <NavLink to={"/sign-up"}>Register</NavLink>
         </div>
         <Button
           type="submit"

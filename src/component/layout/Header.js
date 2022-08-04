@@ -27,6 +27,7 @@ const HeaderStyles = styled.header`
   .logo {
     display: block;
     max-width: 50px;
+    object-fit:cover;
   }
   .menu {
     display: flex;
@@ -34,7 +35,7 @@ const HeaderStyles = styled.header`
     gap: 20px;
     margin-left: 40px;
     list-style: none;
-      font-weight:600;
+    font-weight: 600;
   }
 
   .search {
@@ -56,33 +57,40 @@ const HeaderStyles = styled.header`
   }
   .search-icon {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 25px;
+   right: 25px;
+   top:50%;
+   transform:translateY(-50%)
   }
   .header-button {
     margin-left: 20px;
   }
+  @media screen and (max-width: 1023.98px) {
+    .logo {
+      max-width: 30px;
+    }
+    .menu,
+    .search,
+    .header-button,
+    .header-auth {
+      display: none;
+    }
+  }
 `;
-function getLastName(name) {
-  if (!name) return 'user';
-  const length = name.split(" ").length;
-  return name.split(" ")[length - 1];
-}
+// function getLastName(name) {
+//   if (!name) return "user";
+//   const newName = name.split(" ").slice(-1).join(" ");
+//   console.log(newName);
+//   return name.split(" ").slice(-1).join(" ");
+// }
 
 const Header = () => {
   const { userInfo } = useAuth();
-  console.log(userInfo?.displayName);
   return (
     <HeaderStyles>
       <div className="container">
         <div className="header-main">
           <NavLink to="/">
-            <img
-              srcSet="logo.png 2x"
-              alt="monkey-blogging"
-              className="logo"
-            />
+            <img srcSet="logo.png" alt="monkey-blogging" className="logo" />
           </NavLink>
           <ul className="menu">
             {menuLink.map((item) => (
@@ -133,17 +141,23 @@ const Header = () => {
           </div>
           {!userInfo ? (
             <Button
-              type="submit"
+              type="button"
               className="header-button"
               height="56px"
-              to="/sign-up"
+              to="/sign-in"
             >
-              Sign Up
+              Sign In
             </Button>
           ) : (
             <div className="header-auth">
-              <span >Welcome back, </span>
-              <strong className="text-primary">{getLastName(userInfo?.displayName)}</strong>
+              <Button
+                type="button"
+                height="56px"
+                className="header-button"
+                to="/dashboard"
+              >
+                Dashboard
+              </Button>
             </div>
           )}
         </div>

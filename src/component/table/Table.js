@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const TableStyles = styled.div`
+overflow-x: auto;
   background-color: white;
   border-radius: 10px;
   table {
@@ -13,14 +14,15 @@ const TableStyles = styled.div`
   th,
   td {
     vertical-align: middle;
+    white-space: nowrap;
   }
   th {
-    padding: 20px 30px;
+    padding: 20px 25px;
     font-weight: 600;
     text-align: left;
   }
   td {
-    padding: 15px 30px;
+    padding: 15px 25px;
   }
   tbody {
   }

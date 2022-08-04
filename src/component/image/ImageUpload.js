@@ -1,5 +1,7 @@
 import React, { Fragment } from "react";
 
+import PropTypes from "prop-types";
+
 const ImageUpload = (props) => {
   const {
     name,
@@ -9,9 +11,10 @@ const ImageUpload = (props) => {
     handleDeleteImage = () => {},
     ...rest
   } = props;
+
   return (
     <label
-      className={`cursor-pointer flex items-center justify-center bg-gray-100 border border-dashed min-h-[250px] w-full rounded-lg ${className} relative overflow-hidden group`}
+      className={`cursor-pointer flex items-center justify-center bg-gray-100 border border-dashed min-h-[200px] w-full rounded-lg ${className} relative overflow-hidden group`}
     >
       <input
         type="file"
@@ -22,7 +25,9 @@ const ImageUpload = (props) => {
       />
       {/* {progress && <div className=" rounded-full absolute loading w-16 h-16 border-8 border-purple-500 border-t-transparent animate-spin"></div>} */}
       {progress !== 0 && !image && (
-       <div className=" absolute text-xl font-semibold text-purple-700 ">{`${Math.floor(progress)}%`}</div>
+        <div className=" absolute text-xl font-semibold text-purple-700 ">{`${Math.floor(
+          progress
+        )}%`}</div>
       )}
       {!image && progress === 0 && (
         <div className="flex flex-col items-center text-center pointer-events-none">
@@ -70,5 +75,10 @@ const ImageUpload = (props) => {
     </label>
   );
 };
-
+ImageUpload.propTypes = {
+  name: PropTypes.string,
+  className: PropTypes.string,
+  progess: PropTypes.number,
+  image: PropTypes.string,
+};
 export default ImageUpload;

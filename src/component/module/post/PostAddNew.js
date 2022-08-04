@@ -12,6 +12,8 @@ import { postStatus } from "../../../utils/constants";
 import {
   addDoc,
   collection,
+  doc,
+  getDoc,
   getDocs,
   query,
   serverTimestamp,
@@ -26,11 +28,6 @@ import { toast } from "react-toastify";
 
 const PostAddNewStyles = styled.div``;
 const PostAddNew = () => {
-  const { userInfo } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
-  const [selectcategory, setSelectCategory] = useState("");
-
   const { control, watch, reset, handleSubmit, setValue, getValues } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -40,8 +37,37 @@ const PostAddNew = () => {
       categoryId: "",
       hot: false,
       image: "",
+      category: {},
+      user: {},
     },
   });
+  const { userInfo } = useAuth();
+
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [selectcategory, setSelectCategory] = useState("");
+
+  useEffect(() => {
+    
+    async function fetchUserData() {
+      if (!userInfo.email) return;
+      const q = query(
+        collection(db, "users"),
+        where("email", "==", userInfo.email)
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setValue("user", {
+          id: doc.id,
+          ...doc.data(),
+        });
+   
+      });
+    };
+    fetchUserData();
+  }, [setValue, userInfo.email]);
+  useEffect(() => {}, []);
+
   //hookFireBaseImage
   const {
     image,
@@ -52,13 +78,12 @@ const PostAddNew = () => {
   } = useFireBaseImage(setValue, getValues);
   const watchHot = watch("hot");
   const watchStatus = watch("status");
-  const watchTitle = watch("title");
-  console.log("title", watchStatus);
+
   //add posts
   const addPostHandler = async (values) => {
+    console.log(values);
     setLoading(true);
     try {
-      console.log(values);
       const cloneValues = { ...values };
       cloneValues.slug = slugify(values.slug || values.title, { lower: true });
       cloneValues.title = values.title.toLowerCase();
@@ -68,7 +93,6 @@ const PostAddNew = () => {
       await addDoc(colRef, {
         ...cloneValues,
         image,
-        userId: userInfo.uid,
         createdAt: serverTimestamp(),
       });
       toast.success("Create new post successfully!");
@@ -76,10 +100,11 @@ const PostAddNew = () => {
         title: "",
         slug: "",
         status: 2,
-        categoryId: "",
         idUser: "",
         hot: false,
         image: "",
+        category: {},
+        user: {},
       });
       setSelectCategory(null);
       handleResetUpload();
@@ -109,8 +134,13 @@ const PostAddNew = () => {
   }, []);
 
   //select Category
-  function handleClickOption(item) {
-    setValue("categoryId", item.id);
+  async function handleClickOption(item) {
+    const colRef = doc(db, "categories", item.id);
+    const docData = await getDoc(colRef);
+    setValue("category", {
+      id: docData.id,
+      ...docData.data(),
+    });
     setSelectCategory(item);
   }
 

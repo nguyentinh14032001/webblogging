@@ -1,6 +1,8 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import { signOut } from "firebase/auth";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
+import { auth } from "../../../firebase/firebase-config";
 const sidebarLinks = [
   {
     title: "Dashboard",
@@ -101,54 +103,65 @@ const sidebarLinks = [
         />
       </svg>
     ),
-    onClick: () => {},
+    onClick: () => signOut(auth),
   },
 ];
 const SidebarStyles = styled.div`
-width: 300px;
-background: #ffffff;
-box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-border-radius: 12px;
-  .sidebar-logo{
+  width: 300px;
+  background: #ffffff;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 12px;
+  .sidebar-logo {
     display: flex;
     align-items: center;
     font-weight: 600;
     gap: 0 20px;
     margin-bottom: 20px;
     padding: 20px 20px 0;
-    img{
+    img {
       max-width: 40px;
     }
   }
-  .menu-item{
-      display:flex;
-      gap: 20px;
-      font-weight: 500;
-      padding: 14px 20px;
-      color: ${(props) => props.theme.gray80};
-      margin-bottom: 20px;
-      transition: all 0.1s linear;
-      cursor: pointer;
-      &.active,
+  .menu-item {
+    display: flex;
+    gap: 20px;
+    font-weight: 500;
+    padding: 14px 20px;
+    color: ${(props) => props.theme.gray80};
+    margin-bottom: 20px;
+    transition: all 0.1s linear;
+    cursor: pointer;
+    &.active,
     &:hover {
       background: ${(props) => props.theme.secondary};
-      color:white;
+      color: white;
     }
-    }
-`
+  }
+  @media screen and (max-width: 1023.98px) {
+    display: none;
+  }
+`;
 const Sidebar = () => {
   return (
-    <SidebarStyles className='sidebar'>
-    <div className="sidebar-logo">
+    <SidebarStyles className="sidebar">
+      <div className="sidebar-logo">
         <img srcSet="/logo.png 2x" alt="" />
         <span>Superb Blogging</span>
       </div>
-      {sidebarLinks.map((link)=>(
-        <NavLink to={link.url} className="menu-item" key={link.title}>
-          <span className="menu-icon">{link.icon}</span>
-          <span className="menu-text">{link.title}</span>
-        </NavLink>
-      ))}
+      {sidebarLinks.map((link) => {
+        if(link.onClick)return (
+          <div to={link.url} onClick={link.onClick} className="menu-item" key={link.title}>
+            <span className="menu-icon">{link.icon}</span>
+            <span className="menu-text">{link.title}</span>
+          </div>
+        )
+        return (
+          <NavLink to={link.url} className="menu-item" key={link.title}>
+            <span className="menu-icon">{link.icon}</span>
+            <span className="menu-text">{link.title}</span>
+          </NavLink>
+        );
+      })}
     </SidebarStyles>
   );
 };

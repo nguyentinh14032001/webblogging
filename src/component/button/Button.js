@@ -16,6 +16,12 @@ const ButtonStyles = styled.button`
       color: ${(props) => props.theme.secondary};
       background-color: white;
     `};
+    ${(props) =>
+    props.kind === "ghost" &&
+    css`
+      color: #8b008b;
+      background-color: RGBA( 139, 0, 139, 0.2 )
+    `};
   ${(props) =>
     props.kind === "primary" &&
     css`

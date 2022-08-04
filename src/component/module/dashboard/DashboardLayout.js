@@ -9,12 +9,16 @@ const DashboardStyles = styled.div`
   max-width: 1600px;
   margin: 0 auto;
   .dashboard {
+   
     &-heading {
       font-weight: bold;
-      font-size: 36px;
-      margin-bottom: 40px;
-      color: ${(props) => props.theme.primary};
-      letter-spacing: 1px;
+      font-size: 25px;
+      margin-bottom: 5px;
+      color: ${(props) => props.theme.black};
+    }
+    &-short-desc {
+      font-size: 14px;
+      color: ${(props) => props.theme.gray80};
     }
     &-main {
       display: grid;

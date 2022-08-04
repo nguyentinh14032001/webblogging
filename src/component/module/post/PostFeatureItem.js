@@ -1,7 +1,5 @@
-import { doc, getDoc } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { db } from "../../../firebase/firebase-config";
 import PostCategory from "./PostCategory";
 import PostImage from "./PostImage";
 import PostMeta from "./PostMeta";
@@ -48,38 +46,24 @@ const PostFeatureItemStyles = styled.div`
     @media screen and (min-width: 1024px) {
       height: 272px;
     }
+    @media screen and (max-width: 1023.98px) {
+    .post {
+      &-content {
+        padding: 15px;
+      }
+    }
+  }
   }
 `;
 const PostFeatureItem = ({ data }) => {
-  const [category, setCategory] = useState([]);
-  const [user, setUser] = useState({});
-
-  //getCategory
-  useEffect(() => {
-    async function fetchCategory() {
-      const docRef = doc(db, "categories", data.categoryId);
-      const docSnap = await getDoc(docRef);
-      setCategory(docSnap.data());
-    }
-    fetchCategory();
-  }, [data.categoryId]);
-
-  //get user by id
-  useEffect(() => {
-    async function fetchUser() {
-      if (data.userId) {
-        const docRef = doc(db, "users", data.userId);
-        const docSnap = await getDoc(docRef);
-        setUser(docSnap.data());
-      }
-    }
-    fetchUser();
-  }, [data.userId]);
+  const {category,user}= data
+  
+ 
   if (!data || !data.id) return null;
 const date = data?.createdAt?.seconds ? new Date(data?.createdAt.seconds * 1000) : new Date();
 const formatDate = new Date(date).toLocaleDateString('vi-VI')
-console.log(formatDate);
 
+console.log(user?.fullname);
   return (
     <PostFeatureItemStyles>
       <PostImage alt="unsplash" url={data.image}></PostImage>
@@ -87,12 +71,12 @@ console.log(formatDate);
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
-          {category.name && (
-            <PostCategory to={category.slug}type="primary">{category?.name}</PostCategory>
+          {category?.name && (
+            <PostCategory to={category?.slug}type="primary">{category?.name}</PostCategory>
           )}
-          <PostMeta date={formatDate} to= {user.fullname && slugify(user.fullname, {lower:true})} authorName={user?.fullname}></PostMeta>
+          <PostMeta date={formatDate} to= {user?.fullname && slugify(user?.fullname, {lower:true})} authorName={user?.fullname}></PostMeta>
         </div>
-        <PostTitle size="big" to={data.slug}>{data.title}</PostTitle>
+        <PostTitle size="big" to={data?.slug}>{data?.title}</PostTitle>
       </div>
     </PostFeatureItemStyles>
   );

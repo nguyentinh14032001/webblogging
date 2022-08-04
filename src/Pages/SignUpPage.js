@@ -9,11 +9,12 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/firebase-config";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import AuthenticationPage from "./AuthenticationPage";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import InputPasswordToggle from "../component/input/InputPasswordToggle";
 import slugify from "slugify";
+import { userRole, userStatus } from "../utils/constants";
 const schema = yup
   .object({
     fullName: yup.string().required("Please enter your fullname"),
@@ -29,6 +30,7 @@ const schema = yup
   .required();
 
 const SignUpPage = () => {
+  const navigate = useNavigate();
   document.title = "Register";
   const {
     control,
@@ -44,15 +46,26 @@ const SignUpPage = () => {
     try {
       await createUserWithEmailAndPassword(auth, values.email, values.password);
       await updateProfile(auth.currentUser, {
-        displayName: values.fullName,
+        displayName: values.fullName.trim(),
+        photoURL:
+          "https://images.unsplash.com/photo-1659038129553-1777827549de?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
       });
       await setDoc(doc(db, "users", auth.currentUser.uid), {
-        fullname: values.fullName,
-        email: values.email,
-        password: values.password,
-        user: slugify(values.fullName, { lower: true }),
+        fullname: values.fullName.trim(),
+        email: values.email.trim(),
+        password: values.password.trim(),
+        username: slugify(values.fullName, { lower: true }),
+        avatar:
+          "https://images.unsplash.com/photo-1659038129553-1777827549de?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+        status: userStatus.ACTIVE,
+        role: userRole.USER,
+        createdAt: serverTimestamp(),
       });
-      toast.success("Regiter successfully");
+      toast.success("Regiter successfully!!!", {
+        pauseOnHover: false,
+        delay: 100,
+      });
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
