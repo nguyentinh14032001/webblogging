@@ -7,7 +7,7 @@ import { Input } from "../../input";
 import { toast } from "react-toastify";
 import { Label } from "../../label";
 import DashboardHeading from "../dashboard/DashboardHeading";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { userRole, userStatus } from "../../../utils/constants";
 import useFireBaseImage from "../../../hook/useFirebaseImage";
 
@@ -44,6 +44,7 @@ const UserAddNew = () => {
         values.email.trim(),
         values.password.trim()
       );
+      
       await addDoc(collection(db, "users"), {
         fullname: values.fullname.trim(),
         email: values.email.trim(),

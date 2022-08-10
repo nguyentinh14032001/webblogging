@@ -1,6 +1,12 @@
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import React, { useEffect } from "react";
-import {  useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { db } from "../../../firebase/firebase-config";
@@ -12,6 +18,7 @@ import { Field, FieldCheckboxes } from "../../field";
 import ImageUpload from "../../image/ImageUpload";
 import { Input } from "../../input";
 import { Label } from "../../label";
+import { Textarea } from "../../textarea";
 import DashboardHeading from "../dashboard/DashboardHeading";
 
 const UserUpdate = () => {
@@ -47,7 +54,6 @@ const UserUpdate = () => {
   const {
     image,
     setImage,
-    handleResetUpload,
     progress,
     handleSelecteImage,
     handleDeleteImage,
@@ -62,9 +68,7 @@ const UserUpdate = () => {
   useEffect(() => {
     setImage(imageUrl);
   }, [imageUrl, setImage]);
-  
 
-  
   useEffect(() => {
     async function fetchData() {
       if (!userId) return;
@@ -82,6 +86,15 @@ const UserUpdate = () => {
       await updateDoc(colRef, {
         ...values,
         avatar: image,
+      });
+      const colRef2 = collection(db, "post");
+      const querySnapshot = await getDocs(colRef2);
+      querySnapshot.forEach((doc) => {
+        if (doc.data().email === values.email) {
+          updateDoc(colRef2, {
+            avatar: image,
+          });
+        }
       });
       toast.success("Update user information successfully!");
     } catch (error) {
@@ -201,6 +214,14 @@ const UserUpdate = () => {
                 User
               </Radio>
             </FieldCheckboxes>
+          </Field>
+        </div>
+        <div className="form-layout">
+          <Field>
+            <Label>
+              Description
+            </Label>
+            <Textarea name="description" control={control}></Textarea>
           </Field>
         </div>
         <Button

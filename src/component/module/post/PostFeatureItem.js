@@ -16,6 +16,7 @@ const PostFeatureItemStyles = styled.div`
       width: 100%;
       height: 100%;
       border-radius: 16px;
+    
     }
     &-overlay {
       position: absolute;
@@ -29,6 +30,7 @@ const PostFeatureItemStyles = styled.div`
       );
       mix-blend-mode: multiply;
       opacity: 0.6;
+     
     }
     &-content {
       position: absolute;
@@ -63,7 +65,6 @@ const PostFeatureItem = ({ data }) => {
 const date = data?.createdAt?.seconds ? new Date(data?.createdAt.seconds * 1000) : new Date();
 const formatDate = new Date(date).toLocaleDateString('vi-VI')
 
-console.log(user?.fullname);
   return (
     <PostFeatureItemStyles>
       <PostImage alt="unsplash" url={data.image}></PostImage>

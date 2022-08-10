@@ -15,6 +15,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import InputPasswordToggle from "../component/input/InputPasswordToggle";
 import slugify from "slugify";
 import { userRole, userStatus } from "../utils/constants";
+
 const schema = yup
   .object({
     fullName: yup.string().required("Please enter your fullname"),
@@ -41,6 +42,14 @@ const SignUpPage = () => {
     resolver: yupResolver(schema),
     mode: "onChange",
   });
+  // const registerUser= async (email)=>{
+  //   const colRef = collection(db, "users");
+  //   const querySnapshot = await getDocs(colRef);
+  //   querySnapshot.forEach((doc) => {
+  //       if(doc.data().email=== email){
+  //       }
+  //   });
+  // }
   const handleSignUp = async (values) => {
     if (!isValid) return;
     try {
@@ -48,7 +57,7 @@ const SignUpPage = () => {
       await updateProfile(auth.currentUser, {
         displayName: values.fullName.trim(),
         photoURL:
-          "https://images.unsplash.com/photo-1659038129553-1777827549de?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+          "https://firebasestorage.googleapis.com/v0/b/monkey-blogging-ae51f.appspot.com/o/images%2Famr-taha-ooW0zaLV4Ow-unsplash.jpg?alt=media&token=40e61f6d-96c6-4e10-ae2d-d926aff84ebc",
       });
       await setDoc(doc(db, "users", auth.currentUser.uid), {
         fullname: values.fullName.trim(),
@@ -56,7 +65,7 @@ const SignUpPage = () => {
         password: values.password.trim(),
         username: slugify(values.fullName, { lower: true }),
         avatar:
-          "https://images.unsplash.com/photo-1659038129553-1777827549de?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+          "https://firebasestorage.googleapis.com/v0/b/monkey-blogging-ae51f.appspot.com/o/images%2Famr-taha-ooW0zaLV4Ow-unsplash.jpg?alt=media&token=40e61f6d-96c6-4e10-ae2d-d926aff84ebc",
         status: userStatus.ACTIVE,
         role: userRole.USER,
         createdAt: serverTimestamp(),

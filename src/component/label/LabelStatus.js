@@ -10,6 +10,12 @@ const LabelStatusStyles = styled.span`
   font-weight: 500;
 `;
 
+/**
+ *
+ * @param type - "default" "success" "warning" "danger"
+ * @returns
+ */
+
 const LabelStatus = ({ children, type = "default" }) => {
   let styleClassName = "text-gray-500 bg-gray-100";
   switch (type) {

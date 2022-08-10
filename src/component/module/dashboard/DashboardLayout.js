@@ -9,7 +9,6 @@ const DashboardStyles = styled.div`
   max-width: 1600px;
   margin: 0 auto;
   .dashboard {
-   
     &-heading {
       font-weight: bold;
       font-size: 25px;
@@ -30,9 +29,9 @@ const DashboardStyles = styled.div`
   }
 `;
 const DashboardLayout = () => {
-  const {userInfo}=useAuth();
+  const { userInfo } = useAuth();
   console.log(userInfo);
-  if(!userInfo) return <NotFoundPage></NotFoundPage>
+  if (!userInfo) return <NotFoundPage></NotFoundPage>;
   return (
     <DashboardStyles>
       <DashboardHeader></DashboardHeader>

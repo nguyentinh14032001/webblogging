@@ -52,8 +52,6 @@ const CategoryManage = () => {
       //get last doc
       const lastVisible =
         documentSnapshots.docs[documentSnapshots.docs.length - 1];
-      setLastDoc(lastVisible);
-
       onSnapshot(newRef, (snapshot) => {
         let results = [];
         snapshot.forEach((doc) => {
@@ -64,6 +62,7 @@ const CategoryManage = () => {
         });
         setCategoryList(results);
       });
+      setLastDoc(lastVisible);
     }
     fetchData();
   }, [filter]);

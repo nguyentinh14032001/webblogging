@@ -8,12 +8,14 @@ const PostImageStyles = styled.div`
     height: 100%;
     object-fit: cover;
     border-radius: inherit;
+    display:block;
+    cursor: pointer;
   }
 `;
 const PostImage = ({ className = "", url = "", alt = "", to = null }) => {
   if (to)
     return (
-      <NavLink to={to} style={{ display: "inline-block" }}>
+      <NavLink to={to} style={{ display: "block" }}>
         <PostImageStyles className={`post-image ${className}`}>
           <img src={url} alt={alt} loading="lazy" />
         </PostImageStyles>

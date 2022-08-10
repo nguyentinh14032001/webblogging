@@ -26,22 +26,22 @@ const HomeFeature = () => {
     );
     onSnapshot(queries, (snapshot) => {
       const result = [];
-      snapshot.forEach((doc)=>{
+      snapshot.forEach((doc) => {
         result.push({
           id: doc.id,
-          ...doc.data()
-        })
-      })
-      setPosts(result)
+          ...doc.data(),
+        });
+      });
+      setPosts(result);
     });
   }, []);
   if (posts.length <= 0) return null;
   return (
     <HomeFeatureStyles className="home-block">
       <div className="container">
-        <Heading>Bài viết nổi bật</Heading>
+        <Heading>Featured Posts</Heading>
         <div className="grid-layout">
-          {posts.map((post)=>(
+          {posts.map((post) => (
             <PostFeatureItem key={post.id} data={post}></PostFeatureItem>
           ))}
         </div>

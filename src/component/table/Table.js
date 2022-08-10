@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const TableStyles = styled.div`
-overflow-x: auto;
+  overflow-x: auto;
   background-color: white;
   border-radius: 10px;
   table {
