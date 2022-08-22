@@ -20,7 +20,7 @@ const CategoryUpdate = () => {
     watch,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting, isValid },
+    formState: {  isSubmitting },
   } = useForm({
     mode: "onChange",
     defaultValues: {

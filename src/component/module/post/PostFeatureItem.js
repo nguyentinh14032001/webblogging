@@ -16,7 +16,6 @@ const PostFeatureItemStyles = styled.div`
       width: 100%;
       height: 100%;
       border-radius: 16px;
-    
     }
     &-overlay {
       position: absolute;
@@ -30,7 +29,6 @@ const PostFeatureItemStyles = styled.div`
       );
       mix-blend-mode: multiply;
       opacity: 0.6;
-     
     }
     &-content {
       position: absolute;
@@ -49,21 +47,22 @@ const PostFeatureItemStyles = styled.div`
       height: 272px;
     }
     @media screen and (max-width: 1023.98px) {
-    .post {
-      &-content {
-        padding: 15px;
+      .post {
+        &-content {
+          padding: 15px;
+        }
       }
     }
   }
-  }
 `;
 const PostFeatureItem = ({ data }) => {
-  const {category,user}= data
-  
- 
+  const { category, user } = data;
+
   if (!data || !data.id) return null;
-const date = data?.createdAt?.seconds ? new Date(data?.createdAt.seconds * 1000) : new Date();
-const formatDate = new Date(date).toLocaleDateString('vi-VI')
+  const date = data?.createdAt?.seconds
+    ? new Date(data?.createdAt.seconds * 1000)
+    : new Date();
+  const formatDate = new Date(date).toLocaleDateString("vi-VI");
 
   return (
     <PostFeatureItemStyles>
@@ -73,11 +72,19 @@ const formatDate = new Date(date).toLocaleDateString('vi-VI')
       <div className="post-content">
         <div className="post-top">
           {category?.name && (
-            <PostCategory to={category?.slug}type="primary">{category?.name}</PostCategory>
+            <PostCategory to={category?.slug} type="primary">
+              {category?.name}
+            </PostCategory>
           )}
-          <PostMeta date={formatDate} to= {user?.fullname && slugify(user?.fullname, {lower:true})} authorName={user?.fullname}></PostMeta>
+          <PostMeta
+            date={formatDate}
+            to={user?.username && slugify(user?.fullname, { lower: true })}
+            authorName={user?.fullname}
+          ></PostMeta>
         </div>
-        <PostTitle size="big" to={data?.slug}>{data?.title}</PostTitle>
+        <PostTitle size="big" to={data?.slug}>
+          {data?.title}
+        </PostTitle>
       </div>
     </PostFeatureItemStyles>
   );

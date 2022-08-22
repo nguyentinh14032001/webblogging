@@ -3,6 +3,7 @@
 @tailwind utilities;
 @import "reset";
 @import "_content";
+@import "_skeleton";
 @layer base {
   body {
     line-height: 1.5;
@@ -63,7 +64,8 @@ a {
     padding-bottom: 40px;
     @media screen and (min-width: 1024px) {
       padding-bottom: 60px;
-    }}
+    }
+  }
 }
 
 .hidden-input {
@@ -94,4 +96,48 @@ input:-webkit-autofill:active {
     background-color: white;
     z-index: 10;
   }
+}
+
+body .slick-slider {
+  .slick-slide > div {
+    margin: 0 10px;
+  }
+  .slick-list {
+    margin: 0 -10px;
+  }
+  .slick-prev {
+    left: -40px;
+    transition: all 1s linear;
+  }
+
+  .slick-next {
+    right: -30px;
+  }
+  .slick-prev::before,
+  .slick-next::before {
+    transition: all 0.25s linear;
+    font-size: 30px;
+    color: #6b50a9 !important;
+
+    &:hover {
+      font-size: 30px;
+      color: #382461 !important;
+    }
+  }
+  .slick-dots {
+    bottom: -30px;
+  }
+  .slick-dots li button:before {
+    font-size: 10px;
+    color: #6b50a9;
+  }
+
+  .slick-dots li.slick-active button:before {
+    color: #382461 !important;
+    opacity: 0.75;
+  }
+}
+.ReactModal__Content{
+  width: 50%;
+  height: 50%;
 }

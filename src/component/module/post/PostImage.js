@@ -12,10 +12,10 @@ const PostImageStyles = styled.div`
     cursor: pointer;
   }
 `;
-const PostImage = ({ className = "", url = "", alt = "", to = null }) => {
+const PostImage = ({ className = "", url = "", alt = "", to = "" }) => {
   if (to)
     return (
-      <NavLink to={to} style={{ display: "block" }}>
+      <NavLink to={`/${to}`} style={{ display: "block" }}>
         <PostImageStyles className={`post-image ${className}`}>
           <img src={url} alt={alt} loading="lazy" />
         </PostImageStyles>

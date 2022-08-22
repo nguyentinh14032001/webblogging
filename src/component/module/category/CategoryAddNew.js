@@ -3,7 +3,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import { db } from "../../../firebase/firebase-config";
-
 import { Button } from "../../button";
 import Radio from "../../checkbox/Radio";
 import { Field, FieldCheckboxes } from "../../field";

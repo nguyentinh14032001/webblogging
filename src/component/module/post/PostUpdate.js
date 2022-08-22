@@ -11,10 +11,9 @@ import {
 
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
-import { useAuth } from "../../../context/AuthContext";
 import { db } from "../../../firebase/firebase-config";
 import useFireBaseImage from "../../../hook/useFirebaseImage";
-import { postStatus } from "../../../utils/constants";
+import { postStatus, userRole } from "../../../utils/constants";
 import { Button } from "../../button";
 import { Radio, Toggle } from "../../checkbox";
 import { Dropdown } from "../../dropdown";
@@ -29,12 +28,17 @@ import ImageUploader from "quill-image-uploader";
 import { toast } from "react-toastify";
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import { useSignIn } from "../../../context/SignInContext";
+
 
 Quill.register("modules/imageUploader", ImageUploader);
 
 const PostUpdate = () => {
   const [params] = useSearchParams();
   const postId = params.get("id");
+  const [post, setPost] = useState("");
+  
+  const { user } = useSignIn();
   const {
     control,
     watch,
@@ -61,17 +65,19 @@ const PostUpdate = () => {
   const [content, setContent] = useState("");
   const [selectcategory, setSelectCategory] = useState("");
   const watchHot = watch("hot");
-  const watchStatus = watch("status");
+  const watchStatus = Number(watch("status"));
   const UpdatePostHandler = async (values) => {
     if (!isValid) return;
+
     const colRef = doc(db, "posts", postId);
+    const cloneValues = { ...values };
+    cloneValues.status = Number(values.status);
     await updateDoc(colRef, {
-      ...values,
+      ...cloneValues,
       image,
       content,
     });
     toast.success("Update post successfully");
-   
   };
   useEffect(() => {
     let postCategories = [];
@@ -95,6 +101,7 @@ const PostUpdate = () => {
       const docRef = doc(db, "posts", postId);
       const docSnapShot = await getDoc(docRef);
       if (docSnapShot.data()) {
+        setPost(docSnapShot.data());
         reset({
           ...docSnapShot.data(),
         });
@@ -107,13 +114,8 @@ const PostUpdate = () => {
   const imageUrl = getValues("image");
   const imageRegex = /%2F(\S+)\?/gm.exec(imageUrl);
   const imageName = imageRegex?.length > 0 ? imageRegex[1] : "";
-  const {
-    image,
-    setImage,
-    progress,
-    handleSelecteImage,
-    handleDeleteImage,
-  } = useFireBaseImage(setValue, getValues, imageName, deletePostImage);
+  const { image, setImage, progress, handleSelecteImage, handleDeleteImage } =
+    useFireBaseImage(setValue, getValues, imageName, deletePostImage);
   //delete Avatar
   async function deletePostImage() {
     const colRef = doc(db, "posts", postId);
@@ -134,36 +136,48 @@ const PostUpdate = () => {
     });
     setSelectCategory(item);
   }
+ 
   const modules = useMemo(
     () => ({
       toolbar: [
         ["bold", "italic", "underline", "strike"],
         ["blockquote"],
-        [{ header: 1 }, { header: 2 }], // custom button values
+        [{ header: 1 }, { header: 2 }], 
         [{ list: "ordered" }, { list: "bullet" }],
         [{ header: [1, 2, 3, 4, 5, 6, false] }],
         ["link", "image"],
       ],
 
-      // imageUploader: {
-      //   upload: async (file) => {
-      //     const bodyFormData = new FormData();
-      //     bodyFormData.append("image", file);
-      //     const response = await axios({
-      //       method: "post",
-      //       url: "https://api.imgbb.com/1/upload?key=6ee3d82cea2a8c77aee10bbe49f0ae6e",
-      //       data: bodyFormData,
-      //       headers: {
-      //         "content-Type": "multipart/form-data",
-      //       },
-      //     });
-      //     return response.data.data.url;
-      //   },
-      // },
+      imageUploader: {
+        upload: async (file) => {
+          const bodyFormData = new FormData();
+          bodyFormData.append("file", file);
+          bodyFormData.append("upload_preset", "cck4hgk7");
+          console.log(file);
+          //await handleUploadImageContent(file)
+          const response = await axios({
+            method: "post",
+            url: "https://api.cloudinary.com/v1_1/nguyentinh14032001/image/upload",
+            data: bodyFormData,
+            headers: {
+              "content-Type": "multipart/form-data",
+            },
+          });
+          return response.data.url
+         
+            
+        },
+      },
     }),
     []
   );
+  //https://api.imgbb.com/1/upload?key=6ee3d82cea2a8c77aee10bbe49f0ae6e
   //6ee3d82cea2a8c77aee10bbe49f0ae6e
+  console.log(content);
+  if (user?.role !== userRole.ADMIN && post?.user?.email !== user?.email) {
+    return null;
+  }
+
   if (!postId) return;
   return (
     <>

@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/firebase-config";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 import AuthenticationPage from "./AuthenticationPage";
 import { NavLink, useNavigate } from "react-router-dom";
 import InputPasswordToggle from "../component/input/InputPasswordToggle";
@@ -53,13 +53,14 @@ const SignUpPage = () => {
   const handleSignUp = async (values) => {
     if (!isValid) return;
     try {
-      await createUserWithEmailAndPassword(auth, values.email, values.password);
-      await updateProfile(auth.currentUser, {
-        displayName: values.fullName.trim(),
-        photoURL:
-          "https://firebasestorage.googleapis.com/v0/b/monkey-blogging-ae51f.appspot.com/o/images%2Famr-taha-ooW0zaLV4Ow-unsplash.jpg?alt=media&token=40e61f6d-96c6-4e10-ae2d-d926aff84ebc",
-      });
-      await setDoc(doc(db, "users", auth.currentUser.uid), {
+      // await createUserWithEmailAndPassword(auth, values.email, values.password);
+      // await updateProfile(auth.currentUser, {
+      //   displayName: values.fullName.trim(),
+      //   photoURL:
+      //     "https://firebasestorage.googleapis.com/v0/b/monkey-blogging-ae51f.appspot.com/o/images%2Famr-taha-ooW0zaLV4Ow-unsplash.jpg?alt=media&token=40e61f6d-96c6-4e10-ae2d-d926aff84ebc",
+      // });
+      const colRef = collection(db, "users");
+      await addDoc(colRef, {
         fullname: values.fullName.trim(),
         email: values.email.trim(),
         password: values.password.trim(),
@@ -74,7 +75,7 @@ const SignUpPage = () => {
         pauseOnHover: false,
         delay: 100,
       });
-      navigate("/");
+      navigate("/sign-in");
     } catch (err) {
       console.log(err);
     }

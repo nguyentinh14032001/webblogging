@@ -2,9 +2,14 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth } from "../../../context/AuthContext";
+import { useSignIn } from "../../../context/SignInContext";
 import NotFoundPage from "../../../Pages/NotFoundPage";
+import { userRole } from "../../../utils/constants";
+import { LoadingSpinner } from "../../loading";
+
 import DashboardHeader from "./DashboardHeader";
 import Sidebar from "./Sidebar";
+import SidebarUser from "./SidebarUser";
 const DashboardStyles = styled.div`
   max-width: 1600px;
   margin: 0 auto;
@@ -28,19 +33,37 @@ const DashboardStyles = styled.div`
     }
   }
 `;
+
 const DashboardLayout = () => {
   const { userInfo } = useAuth();
-  console.log(userInfo);
-  if (!userInfo) return <NotFoundPage></NotFoundPage>;
+
+  const { user, loading } = useSignIn();
+  if (user.length <= 0 ) return <NotFoundPage></NotFoundPage>;
+
   return (
     <DashboardStyles>
       <DashboardHeader></DashboardHeader>
-      <div className="dashboard-main">
-        <Sidebar></Sidebar>
-        <div className="dashboard-children">
-          <Outlet></Outlet>
+      {loading && (
+        <div className="flex items-center w-full h-[100vh] justify-center ">
+          <LoadingSpinner
+            size="70px"
+            borderSize="8px"
+            type="primary"
+          ></LoadingSpinner>
         </div>
-      </div>
+      )}
+      {!loading && user && (
+        <div className="dashboard-main">
+          {user?.role === userRole.ADMIN ? (
+            <Sidebar></Sidebar>
+          ) : (
+            <SidebarUser></SidebarUser>
+          )}
+          <div className="dashboard-children">
+            <Outlet></Outlet>
+          </div>
+        </div>
+      )}
     </DashboardStyles>
   );
 };

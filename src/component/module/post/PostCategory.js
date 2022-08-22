@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { NavLink } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 const PostCategoryStyles = styled.div`
   display: inline-block;
@@ -10,9 +10,9 @@ const PostCategoryStyles = styled.div`
   font-size: 14px;
   font-weight: 600;
   white-space: nowrap;
-a{
-  display: block;
-}
+  a {
+    display: block;
+  }
   ${(props) =>
     props.type === "primary" &&
     css`
@@ -24,10 +24,15 @@ a{
       background-color: white;
     `};
 `;
-const PostCategory = ({ children, type = "primary", className = "", to='/' }) => {
+const PostCategory = ({
+  children,
+  type = "primary",
+  className = "",
+  to = "",
+}) => {
   return (
     <PostCategoryStyles type={type} className={`post-category ${className}`}>
-      <NavLink to={to}>{children}</NavLink>
+      <Link to={`/category/${to}`}>{children}</Link>
     </PostCategoryStyles>
   );
 };

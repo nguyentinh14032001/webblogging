@@ -23,6 +23,7 @@ export default function useFireBaseImage(
     const storage = getStorage();
     const storageRef = ref(storage, "images/" + getValues("image_name"));
     const uploadTask = uploadBytesResumable(storageRef, file);
+    console.log(file);
     uploadTask.on(
       "state_changed",
       (snapshot) => {

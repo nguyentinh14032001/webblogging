@@ -15,21 +15,23 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../../firebase/firebase-config";
-import { categoryStatus } from "../../../utils/constants";
+import { categoryStatus, userRole } from "../../../utils/constants";
 import { Button } from "../../button";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
+import { useSignIn } from "../../../context/SignInContext";
 
 const CATEGORY_PER_PAGE = 2;
 
 const CategoryManage = () => {
+  
   const [categoryList, setCategoryList] = useState([]);
-
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
   const [lastDoc, setLastDoc] = useState();
   const [total, setTotal] = useState(0);
+  const{user} = useSignIn();
 
   //get category
   useEffect(() => {
@@ -116,6 +118,7 @@ const CategoryManage = () => {
       documentSnapshots.docs[documentSnapshots.docs.length - 1];
     setLastDoc(lastVisible);
   };
+  if(user.role !== userRole.ADMIN) return null
   return (
     <div>
       <DashboardHeading title="Categories" desc="Manage your category">

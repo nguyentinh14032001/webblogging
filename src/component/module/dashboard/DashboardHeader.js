@@ -2,6 +2,7 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth } from "../../../context/AuthContext";
+import { useSignIn } from "../../../context/SignInContext";
 import { Button } from "../../button";
 
 const DashboardHeaderStyles = styled.div`
@@ -39,24 +40,20 @@ const DashboardHeaderStyles = styled.div`
   }
 `;
 const DashboardHeader = () => {
-  const { userInfo } = useAuth();
+  const { user } = useSignIn();
   return (
     <DashboardHeaderStyles>
       <NavLink to="/" className="logo">
         <img srcSet="/logo.png 2x" alt="monkey-blogging" className="logo" />
-        <span className="hidden lg:inline-block">Monkey Blogging</span>
+        <span className="hidden lg:inline-block">Superb Blogging</span>
       </NavLink>
       <div className="header-right">
-
-      <Button to="/manage/add-post" className="header-button" height="52px">
-        Write new post
-      </Button>
-      <Link  to="/profile" className="header-avatar">
-        <img
-          src={userInfo?.photoURL}
-          alt=""
-        />
-      </Link>
+        <Button to="/manage/add-post" className="header-button" height="52px">
+          Write new post
+        </Button>
+        <Link to="/profile" className="header-avatar">
+          <img src={user?.avatar} alt="" />
+        </Link>
       </div>
     </DashboardHeaderStyles>
   );

@@ -33,8 +33,17 @@ const HomeBannerStyles = styled.div`
     .banner {
       flex-direction: column;
       min-height: unset;
+      justify-content:center;
+      align-items:center;
       &-heading {
         font-size: 30px;
+        margin-bottom: 20px;
+      }
+      &-content{
+        display: flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
         margin-bottom: 10px;
       }
       &-desc {
@@ -48,6 +57,7 @@ const HomeBannerStyles = styled.div`
         font-size: 14px;
         height: auto;
         padding: 15px;
+        
       }
     }
   }

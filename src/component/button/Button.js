@@ -48,6 +48,7 @@ const Button = ({
   children,
   onClick = () => {},
   kind = "primary",
+  
   ...props
 }) => {
   const { isLoading, to } = props;
@@ -67,7 +68,7 @@ const Button = ({
     );
   }
   return (
-    <ButtonStyles type={type} kind={kind} onClick={onClick} {...props}>
+    <ButtonStyles type={type} kind={kind}  onClick={onClick} {...props}>
       {child}
     </ButtonStyles>
   );

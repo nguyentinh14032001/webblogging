@@ -1,7 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../firebase/firebase-config";
-import NotFoundPage from "../../Pages/NotFoundPage";
 
 const AuthorBox = ({ userId = "" }) => {
   const [user, setUser] = useState({});
@@ -13,7 +12,6 @@ const AuthorBox = ({ userId = "" }) => {
     }
     fetchData();
   }, [userId]);
-  console.log(user);
   if (!userId || !user.email) return null;
 
   return (

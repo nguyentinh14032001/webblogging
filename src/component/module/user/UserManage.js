@@ -1,4 +1,6 @@
 import React from "react";
+import { useSignIn } from "../../../context/SignInContext";
+import { userRole } from "../../../utils/constants";
 import { Button } from "../../button";
 import DashboardHeading from "../dashboard/DashboardHeading";
 import OverviewTable from "./OverviewTable";
@@ -15,6 +17,8 @@ const UserManage = () => {
   //   fetchData();
   // }, [userInfo]);
   // if(user.role !== userRole.ADMIN) return <NotFoundPage></NotFoundPage>
+const {user} = useSignIn()
+if(user.role !== userRole.ADMIN) return null
 
   return (
     <div>

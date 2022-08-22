@@ -55,12 +55,14 @@ const PostItem = ({ data }) => {
           "https://images.unsplash.com/photo-1570993492881-25240ce854f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2290&q=80"
         }
       ></PostImage>
-      <PostCategory>{data?.category?.name}</PostCategory>
-      <PostTitle>{data?.title}</PostTitle>
+      <PostCategory to={data?.category?.slug}>
+        {data?.category?.name}
+      </PostCategory>
+      <PostTitle to={data?.slug}>{data?.title}</PostTitle>
       <PostMeta
         date={formatDate}
         to={
-          data?.user?.fullname && slugify(data?.user?.fullname, { lower: true })
+          data?.user?.username && slugify(data?.user?.fullname, { lower: true })
         }
         authorName={data?.user?.fullname}
       ></PostMeta>

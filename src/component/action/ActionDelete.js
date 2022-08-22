@@ -29,7 +29,7 @@ const ActionDeleteStyles = styled.span`
 const ActionDelete = ({ onClick = () => {} }) => {
   return (
     <ActionDeleteStyles
-      className="flex items-center justify-center w-10 h-10 border border-gray-200 rounded cursor-pointer"
+      className="flex items-center justify-center w-10 h-10 border border-red-500 opacity-70 transition-opacity hover:opacity-100 text-red-500 rounded cursor-pointer"
       onClick={onClick}
     >
       <svg
